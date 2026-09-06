@@ -1,20 +1,47 @@
-def left_turn(state):
-    new_state = {
-        "up":"yellow", 
-        "front":state.get("right"), 
-        "right":state.get("back"), 
-        "left":state.get("front"), 
-        "back":state.get("left"), 
-        "bottom":"white"
+import scan_cube
+scan_cube.scan()
+state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
+default_state = state
+def left_turn():
+    global state
+    state = {
+        "top":state.get("top"),
+        "bottom":state.get("bottom"),
+        "front":state.get("right"),
+        "back":state.get("left"),
+        "right":state.get("back"),
+        "left":state.get("front")
         }
-    return new_state
-def right_turn(state):
-    new_state = {
-        "up":"yellow", 
-        "front":state.get("left"), 
-        "right":state.get("front"), 
-        "left":state.get("back"), 
-        "back":state.get("right"), 
-        "bottom":"white"
+
+def right_turn():
+    global state
+    state = {
+        "top":state.get("top"),
+        "bottom":state.get("bottom"),
+        "front":state.get("left"),
+        "back":state.get("right"),
+        "right":state.get("front"),
+        "left":state.get("back")
         }
-    return new_state
+
+def up_turn():
+    global state
+    state = {
+        "top":state.get("front"),
+        "bottom":state.get("back"),
+        "front":state.get("bottom"),
+        "back":state.get("top"),
+        "right":state.get("right"),
+        "left":state.get("left")
+        }
+
+def down_turn():
+    global state
+    state = {
+        "top":state.get("back"),
+        "bottom":state.get("front"),
+        "front":state.get("top"),
+        "back":state.get("bottom"),
+        "right":state.get("right"),
+        "left":state.get("left")
+        }
