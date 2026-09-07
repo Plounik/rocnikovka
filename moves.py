@@ -1,10 +1,10 @@
 import rotations
 reference = {"u": "top", "d": "bottom", "f": "front", "b": "back", "r": "right", "l": "left"}
-
+ 
 
 def execute(turns_list):
     for i in turns_list:
-        original_color = rotations.default_state.get(reference.get(str(i[0]).lower()))
+        original_color = rotations.default_state[reference[str(i[0]).lower()]]
         reverse_state = {v: k for k, v in rotations.state.items()}
         current_position = reverse_state[original_color]
 
