@@ -1,17 +1,9 @@
 import rotations
-def execute_moves(moves_list):
-    for i in moves_list:
-            print(i)
-            match i:
-                case "up":
-                    rotations.up_turn()
-                case "down":
-                    rotations.down_turn()
-                case "left":
-                    rotations.left_turn()
-                case "right":
-                    rotations.right_turn()
-  
+import turns
+import moves
+
 print(rotations.state)
-execute_moves(["down", "left", "up", "left", "down", "right"])
+moves.execute(["u'", "D", "l'", "b", "r", "f'", "U"])
+rotations.up_turn()
+turns.execute(["down", "left", "up", "left", "down", "right"])
 print(rotations.state)

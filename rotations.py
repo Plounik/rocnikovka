@@ -1,7 +1,7 @@
 import scan_cube
 scan_cube.scan()
-state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
-default_state = state
+default_state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
+state = default_state
 def left_turn():
     global state
     state = {
