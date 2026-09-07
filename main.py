@@ -1,4 +1,4 @@
-#!/usr/bin/env pybricks-micropython
+#!/usr/bin/pybricks-micropython
 
 import rotations
 import turns
