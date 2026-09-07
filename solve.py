@@ -9,30 +9,17 @@
 import time
 from array import array
 try:
+    import ubinascii as _binascii
+except ImportError:
+    import binascii as _binascii
+
+try:
     _ticks_ms=time.ticks_ms
 except AttributeError:
     _ticks_ms=lambda: int(time.time()*1000)
 
 def _b64decode(s):
-    try:
-        import ubinascii
-        return ubinascii.a2b_base64(s)
-    except ImportError:
-        import base64
-        return base64.b64decode(s)
-
-    # Fallback for a minimal compatible runtime that provides neither
-    # ubinascii nor base64.
-    alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-    out=bytearray(); acc=0; bits=0
-    for ch in s:
-        if ch=='=': break
-        v=alphabet.find(ch)
-        if v<0: continue
-        acc=(acc<<6)|v; bits+=6
-        if bits>=8:
-            bits-=8; out.append((acc>>bits)&255)
-    return bytes(out)
+    return _binascii.a2b_base64(s)
 
 def _load_rows(encoded,rows,cols,code):
     raw=_b64decode(encoded); step=cols*(4 if code=='I' else 2); result=[]
