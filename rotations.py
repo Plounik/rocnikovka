@@ -1,4 +1,6 @@
 import scan_cube
+import base_motor
+import arm_motor
 scan_cube.scan()
 default_state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
 state = default_state
@@ -12,6 +14,8 @@ def left_turn():
         "right":state["back"],
         "left":state["front"]
         }
+    base_motor.r90()
+
 
 def right_turn():
     global state
@@ -23,6 +27,7 @@ def right_turn():
         "right":state["front"],
         "left":state["back"]
         }
+    base_motor.r270()
 
 def up_turn():
     global state
@@ -45,3 +50,4 @@ def down_turn():
         "right":state["right"],
         "left":state["left"]
         }
+    arm_motor.turn()
