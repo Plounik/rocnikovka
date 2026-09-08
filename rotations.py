@@ -1,7 +1,6 @@
-import scan_cube
+import sensor_motor
 import base_motor
 import arm_motor
-scan_cube.scan()
 default_state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
 state = default_state
 def left_turn():

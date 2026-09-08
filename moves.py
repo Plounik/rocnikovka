@@ -4,7 +4,7 @@ import arm_motor
 reference = {"U": "top", "D": "bottom", "F": "front", "B": "back", "R": "right", "L": "left"}
  
 
-def execute(turns_list):
+def execute(turns_list, turn):
     for i in turns_list:
         original_color = rotations.default_state[reference[str(i[0])]]
         reverse_state = {v: k for k, v in rotations.state.items()}
@@ -27,11 +27,12 @@ def execute(turns_list):
         elif current_position == "left":
             rotations.right_turn()
             rotations.down_turn()
-        arm_motor.hold()
-        if i[-1] == i[0]:
-            base_motor.r90()
-        elif i[-1] == "'":
-            base_motor.r270()
-        elif i[-1] == "2":
-            base_motor.r180()
-        arm_motor.release()
+        if turn:
+            arm_motor.hold()
+            if i[-1] == i[0]:
+                base_motor.r90()
+            elif i[-1] == "'":
+                base_motor.r270()
+            elif i[-1] == "2":
+                base_motor.r180()
+            arm_motor.release()
