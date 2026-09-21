@@ -2,13 +2,12 @@ import rotations
 def execute(turns_list):
     for i in turns_list:
             print(i)
-            match i:
-                case "up":
-                    rotations.up_turn()
-                case "down":
-                    rotations.down_turn()
-                case "left":
-                    rotations.left_turn()
-                case "right":
-                    rotations.right_turn()
+            if i == "up":
+                rotations.move_up()
+            elif i == "down":
+                rotations.move_down()
+            elif i == "left":
+                rotations.move_left()
+            elif i == "right":
+                rotations.move_right()
   

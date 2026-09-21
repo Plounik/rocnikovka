@@ -1,8 +1,7 @@
-import scan_cube
-scan_cube.scan()
+import motors
 default_state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
 state = default_state
-def left_turn():
+def move_left():
     global state
     state = {
         "top":state["top"],
@@ -12,8 +11,9 @@ def left_turn():
         "right":state["back"],
         "left":state["front"]
         }
+    motors.turn_90()
 
-def right_turn():
+def move_right():
     global state
     state = {
         "top":state["top"],
@@ -23,8 +23,8 @@ def right_turn():
         "right":state["front"],
         "left":state["back"]
         }
-
-def up_turn():
+    motors.turn_270()
+def move_up():
     global state
     state = {
         "top":state["front"],
@@ -34,8 +34,9 @@ def up_turn():
         "right":state["right"],
         "left":state["left"]
         }
+    motors.turn_up()
 
-def down_turn():
+def move_down():
     global state
     state = {
         "top":state["back"],
@@ -45,3 +46,4 @@ def down_turn():
         "right":state["right"],
         "left":state["left"]
         }
+    motors.turn_down()
