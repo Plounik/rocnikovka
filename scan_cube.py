@@ -1,4 +1,5 @@
 import motors
+faces = dict
 def scan(sensor):
     if sensor == "main":
         pass
@@ -9,11 +10,12 @@ def scan(sensor):
 
 
 
-def scan_side():
-    order = "729814563"
+def scan_side(face):
+    order = "476501238"
     side = ""
     motors.scan_center()
     side += scan("main")
+    faces[side] = face
     motors.scan()
     for i in range(4):
         side += scan("main")
