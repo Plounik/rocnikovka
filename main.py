@@ -17,17 +17,17 @@ import scan_cube
 motors.setup_up()
 cube = ""
 cube += scan_cube.scan_side()
-turns.execute("right","up")
+turns.execute(["right","up"])
 cube += scan_cube.scan_side()
-turns.execute("down","left","up")
+turns.execute(["down","left","up"])
 cube += scan_cube.scan_side()
-turns.execute("up")
+turns.execute(["up"])
 cube += scan_cube.scan_side()
-turns.execute("left","down")
+turns.execute(["left","down"])
 cube += scan_cube.scan_side()
-turns.execute("up","left","down")
+turns.execute(["up","left","down"])
 cube += scan_cube.scan_side()
-turns.execute("down","left","left")
+turns.execute(["down","left","left"])
 
 
 

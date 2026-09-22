@@ -18,7 +18,7 @@ def scan_side():
     for i in range(4):
         side += scan("main")
         side += scan("side")
-        motors.move_90
+        motors.move_90()
     side_final = ""
     for i in range(9):
         side_final += side[order[i]]
