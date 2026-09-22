@@ -1,12 +1,19 @@
 import motors
+from pybricks.parameters import Port
+from pybricks.pupdevices import (ColorSensor,Motor)
+
+main_sensor = ColorSensor(Port.A)
+side_sensor = ColorSensor(Port.C)
 faces = {}
+
 def scan(sensor):
     if sensor == "main":
-        pass
+        hsv = main_sensor.hsv()
     else:
-        pass
-    color = None
-    return color
+        hsv = side_sensor.hsv()
+    print(hsv)
+    
+    return "f"
 
 
 
@@ -20,8 +27,9 @@ def scan_side(face):
     for i in range(4):
         side += scan("main")
         side += scan("side")
-        motors.move_90()
+        motors.turn_90()
     side_final = ""
     for i in range(9):
         side_final += side[int(order[i])]
+    motors.release()
     return side_final 
