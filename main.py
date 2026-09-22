@@ -29,12 +29,12 @@ cube += scan_cube.scan_side("B")
 turns.execute(["down","left","left"])
 
 print(cube)
-
+final_cube = ""
 for i in cube:
-    cube[i] = scan_cube.faces[cube[i]]
+    final_cube += scan_cube.faces[i]
 
-print(cube)
+print(final_cube)
 
 import solve
-moves_list = solve.solve(cube)
+moves_list = solve.solve(final_cube)
 moves.execute(moves_list)

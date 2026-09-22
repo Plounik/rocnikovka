@@ -1,5 +1,5 @@
 import motors
-faces = dict
+faces = {}
 def scan(sensor):
     if sensor == "main":
         pass
@@ -23,5 +23,5 @@ def scan_side(face):
         motors.move_90()
     side_final = ""
     for i in range(9):
-        side_final += side[order[i]]
+        side_final += side[int(order[i])]
     return side_final 
