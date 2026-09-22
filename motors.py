@@ -83,6 +83,10 @@ def scan():
     _go_to_position(motor_d, 190, "clockwise")
 
 
+def scan_center():
+    _go_to_position(motor_d, 0, "shortest")
+
+
 def setup_up():
     release()
 
