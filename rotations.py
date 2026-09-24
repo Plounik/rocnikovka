@@ -1,6 +1,10 @@
 import motors
+
+
 default_state = {"top":"U", "bottom":"W", "front":"G", "back":"B", "right":"O", "left":"R"}
 state = default_state
+
+
 def move_left():
     global state
     state = {
@@ -24,6 +28,7 @@ def move_right():
         "left":state["back"]
         }
     motors.turn_270()
+    
 def move_up():
     global state
     state = {

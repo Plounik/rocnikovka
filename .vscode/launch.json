@@ -12,7 +12,7 @@
                 "--stay-connected",
                 "${workspaceFolder}\\main.py"
             ],
-            "python": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "python": "${workspaceFolder}\\..\\..\\Scripts\\python.exe",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
@@ -38,7 +38,7 @@
                 "ble",
                 "${workspaceFolder}\\main.py"
             ],
-            "python": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "python": "${workspaceFolder}\\..\\..\\Scripts\\python.exe",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",

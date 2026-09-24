@@ -10,4 +10,3 @@ def execute(turns_list):
                 rotations.move_left()
             elif i == "right":
                 rotations.move_right()
-  

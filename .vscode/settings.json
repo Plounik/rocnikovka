@@ -1,5 +1,8 @@
 {
-    "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+    "python.defaultInterpreterPath": "${workspaceFolder}\\..\\..\\Scripts\\python.exe",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}\\..\\..\\Lib\\site-packages"
+    ],
     "python.terminal.activateEnvironment": false,
     "debug.saveBeforeStart": "allEditorsInActiveGroup",
     "python.languageServer": "Pylance",

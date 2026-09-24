@@ -1,12 +1,14 @@
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port, Stop
 from pybricks.tools import wait
+# import pybrics
 
 
 motor_b = Motor(Port.B)
 motor_d = Motor(Port.D)
 motor_e = Motor(Port.E)
 motor_f = Motor(Port.F)
+# initialize motors
 
 
 def _absolute_angle(motor):
@@ -75,12 +77,14 @@ def hold():
 
 def release():
     _go_to_position(motor_d, 100, "shortest")
-    _go_to_position(motor_d, 0, "counterclockwise")
+    _go_to_position(motor_d, 350, "counterclockwise")
+    _wait_until_done(motor_d)
 
 
 def scan():
     _go_to_position(motor_d, 100, "shortest")
     _go_to_position(motor_d, 190, "clockwise")
+    _wait_until_done(motor_d)
 
 
 def scan_center():
@@ -89,20 +93,21 @@ def scan_center():
 
 def setup_up():
     release()
+    wait(400)
 
-    current_e = _absolute_angle(motor_e)
-    target_e = round(current_e / 90) * 90 - 5
+    target_e = round(_absolute_angle(motor_e) / 90) * 90 - 5
     _go_to_position(motor_e, target_e, "shortest")
+    _wait_until_done(motor_e)
 
-    current_f = _absolute_angle(motor_f)
-    direction_f = "counterclockwise" if 270 < current_f else "shortest"
+    direction_f = "counterclockwise" if 270 < _absolute_angle(motor_f) else "shortest"
     _go_to_position(motor_f, 90, direction_f, False)
+    _wait_until_done(motor_f)
 
-    current_b = _absolute_angle(motor_b)
-    direction_b = "counterclockwise" if 170 < current_b else "shortest"
+     
+    direction_b = "counterclockwise" if 170 < _absolute_angle(motor_b) else "shortest"
     _go_to_position(motor_b, 90, direction_b, True)
 
-    _wait_until_done(motor_f)
+    _wait_until_done(motor_b)
 
 
 def left_and_right(angle):
