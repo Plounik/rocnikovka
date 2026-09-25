@@ -24,6 +24,9 @@ if hub.battery.voltage() < 8000:
     print(f"the battery voltage is {hub.battery.voltage()/1000}V")
 # checks battery status
 
+if hub.charger.connected():
+    print(f"the charging current is {hub.charger.current()/1000}A")
+# checks charging status
 
 
 def cube_scan():
@@ -62,8 +65,15 @@ def cube_solve():
 
 motors.setup_up()
 
-cube_scan()
 
-cube_convert()
 
-cube_solve()
+
+
+
+
+
+# cube_scan()
+
+# cube_convert()
+
+# cube_solve()

@@ -11,6 +11,99 @@ motor_f = Motor(Port.F)
 # initialize motors
 
 
+def setup_up():
+    release()
+    wait(400)
+
+    target_e = round(_absolute_angle(motor_e) / 90) * 90 - 5
+    _go_to_position(motor_e, target_e, "shortest")
+    _wait_until_done(motor_e)
+
+    direction_f = "counterclockwise" if 270 < _absolute_angle(motor_f) else "shortest"
+    _go_to_position(motor_f, 90, direction_f, False)
+    _wait_until_done(motor_f)
+
+     
+    direction_b = "counterclockwise" if 170 < _absolute_angle(motor_b) else "shortest"
+    _go_to_position(motor_b, 90, direction_b, True)
+
+    _wait_until_done(motor_b)
+    wait(1000)
+
+
+def hold():
+    _go_to_position(motor_b, 350, "clockwise", False)
+    _go_to_position(motor_f, 350, "clockwise", True)
+    _wait_until_done(motor_b)
+
+
+def release():
+    _go_to_position(motor_d, 100, "shortest")
+    _go_to_position(motor_d, 350, "counterclockwise")
+    _wait_until_done(motor_d)
+
+
+def scan():
+    _go_to_position(motor_d, 100, "shortest")
+    _go_to_position(motor_d, 190, "clockwise")
+    _wait_until_done(motor_d)
+
+
+def scan_center():
+    _go_to_position(motor_d, 0, "shortest")
+
+
+def left_and_right(angle):
+    right_arm(angle, False)
+    left_arm(angle, True)
+    _wait_until_done(motor_f)
+
+
+def turn_up():
+    left_and_right(90)
+    motor_b.run_angle(10000, 360, then=Stop.HOLD)
+    wait(300)
+
+
+def turn_down():
+    left_and_right(90)
+    motor_f.run_angle(10000, 360, then=Stop.HOLD)
+    wait(300)
+
+
+def turn_90():
+    left_and_right(90)
+    motor_e.run_angle(10000, -280, then=Stop.HOLD)
+    motor_e.run_angle(10000, 10, then=Stop.HOLD)
+
+
+def turn_270():
+    left_and_right(90)
+    motor_e.run_angle(10000, 280, then=Stop.HOLD)
+    motor_e.run_angle(10000, -10, then=Stop.HOLD)
+
+
+def move_90():
+    hold()
+    motor_e.run_angle(10000, -280, then=Stop.HOLD)
+    motor_e.run_angle(10000, 10, then=Stop.HOLD)
+    left_and_right(90)
+
+
+def move_180():
+    hold()
+    motor_e.run_angle(10000, 550, then=Stop.HOLD)
+    motor_e.run_angle(10000, -10, then=Stop.HOLD)
+    left_and_right(90)
+
+
+def move_270():
+    hold()
+    motor_e.run_angle(10000, 280, then=Stop.HOLD)
+    motor_e.run_angle(10000, -10, then=Stop.HOLD)
+    left_and_right(90)
+
+
 def _absolute_angle(motor):
     return motor.angle() % 360
 
@@ -67,95 +160,3 @@ def right_arm(angle, wait_for_finish=True):
         direction = "counterclockwise"
 
     _go_to_position(motor_f, angle, direction, wait_for_finish)
-
-
-def hold():
-    _go_to_position(motor_b, 350, "clockwise", False)
-    _go_to_position(motor_f, 350, "clockwise", True)
-    _wait_until_done(motor_b)
-
-
-def release():
-    _go_to_position(motor_d, 100, "shortest")
-    _go_to_position(motor_d, 350, "counterclockwise")
-    _wait_until_done(motor_d)
-
-
-def scan():
-    _go_to_position(motor_d, 100, "shortest")
-    _go_to_position(motor_d, 190, "clockwise")
-    _wait_until_done(motor_d)
-
-
-def scan_center():
-    _go_to_position(motor_d, 0, "shortest")
-
-
-def setup_up():
-    release()
-    wait(400)
-
-    target_e = round(_absolute_angle(motor_e) / 90) * 90 - 5
-    _go_to_position(motor_e, target_e, "shortest")
-    _wait_until_done(motor_e)
-
-    direction_f = "counterclockwise" if 270 < _absolute_angle(motor_f) else "shortest"
-    _go_to_position(motor_f, 90, direction_f, False)
-    _wait_until_done(motor_f)
-
-     
-    direction_b = "counterclockwise" if 170 < _absolute_angle(motor_b) else "shortest"
-    _go_to_position(motor_b, 90, direction_b, True)
-
-    _wait_until_done(motor_b)
-
-
-def left_and_right(angle):
-    right_arm(angle, False)
-    left_arm(angle, True)
-    _wait_until_done(motor_f)
-
-
-def turn_up():
-    left_and_right(90)
-    motor_b.run_angle(10000, 360, then=Stop.HOLD)
-    wait(300)
-
-
-def turn_down():
-    left_and_right(90)
-    motor_f.run_angle(10000, 360, then=Stop.HOLD)
-    wait(300)
-
-
-def turn_90():
-    left_and_right(90)
-    motor_e.run_angle(10000, -280, then=Stop.HOLD)
-    motor_e.run_angle(10000, 10, then=Stop.HOLD)
-
-
-def turn_270():
-    left_and_right(90)
-    motor_e.run_angle(10000, 280, then=Stop.HOLD)
-    motor_e.run_angle(10000, -10, then=Stop.HOLD)
-
-
-def move_90():
-    hold()
-    motor_e.run_angle(10000, -280, then=Stop.HOLD)
-    motor_e.run_angle(10000, 10, then=Stop.HOLD)
-    left_and_right(90)
-
-
-def move_180():
-    hold()
-    motor_e.run_angle(10000, 550, then=Stop.HOLD)
-    motor_e.run_angle(10000, -10, then=Stop.HOLD)
-    left_and_right(90)
-
-
-def move_270():
-    hold()
-    motor_e.run_angle(10000, 280, then=Stop.HOLD)
-    motor_e.run_angle(10000, -10, then=Stop.HOLD)
-    left_and_right(90)
