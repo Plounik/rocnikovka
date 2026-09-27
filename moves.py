@@ -15,15 +15,16 @@ def execute(turns_list):
         elif current_position == "bottom":
             pass
         elif current_position == "front":
-            rotations.move_down()
+            rotations.move_180()
+            rotations.move_up()
         elif current_position == "back":
             rotations.move_up()
         elif current_position == "right":
-            rotations.move_left()
-            rotations.move_down()
-        elif current_position == "left":
             rotations.move_right()
-            rotations.move_down()
+            rotations.move_up()
+        elif current_position == "left":
+            rotations.move_left()
+            rotations.move_up()
 
         if i[0] == i[-1]:
             motors.move_90()

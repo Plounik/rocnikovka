@@ -7,8 +7,8 @@ motor_b = Motor(Port.B)
 motor_d = Motor(Port.D)
 motor_e = Motor(Port.E)
 motor_f = Motor(Port.F)
-
-
+motor_b.control.limits(1000, 4000, 400)
+motor_f.control.limits(1000, 4000, 400)
 def _absolute_angle(motor):
     return motor.angle() % 360
 
@@ -43,8 +43,7 @@ def _wait_until_done(motor):
 
 def left_arm(angle, wait_for_finish=True):
     current = _absolute_angle(motor_b)
-
-    if round(current / 5) * 5 == angle:
+    if round((current-10) / 20) * 20 == angle - 10:
         direction = "shortest"
     elif angle - 60 > current:
         direction = "clockwise"
@@ -57,7 +56,7 @@ def left_arm(angle, wait_for_finish=True):
 def right_arm(angle, wait_for_finish=True):
     current = _absolute_angle(motor_f)
 
-    if round(current / 5) * 5 == angle:
+    if round((current-10) / 20) * 20 == angle - 10:
         direction = "shortest"
     elif angle - 60 > current:
         direction = "clockwise"
@@ -68,7 +67,7 @@ def right_arm(angle, wait_for_finish=True):
 
 
 def hold():
-    _go_to_position(motor_b, 350, "clockwise", False)
+    _go_to_position(motor_b, 325, "clockwise", False)
     _go_to_position(motor_f, 350, "clockwise", True)
     _wait_until_done(motor_b)
 
@@ -109,24 +108,22 @@ def left_and_right(angle):
 
 def turn_up():
     left_and_right(90)
-    motor_b.run_angle(10000, 360, then=Stop.HOLD)
-    wait(300)
-
-
-def turn_down():
-    left_and_right(90)
-    motor_f.run_angle(10000, 360, then=Stop.HOLD)
+    motor_b.run_angle(2000, 180, then=Stop.HOLD)
+    motor_b.run_angle(350, 180, then=Stop.HOLD)
     wait(300)
 
 
 def turn_90():
-    left_and_right(90)
     motor_e.run_angle(10000, -280, then=Stop.HOLD)
     motor_e.run_angle(10000, 10, then=Stop.HOLD)
 
 
+def turn_180():
+    motor_e.run_angle(10000, 550, then=Stop.HOLD)
+    motor_e.run_angle(10000, -10, then=Stop.HOLD)
+
+
 def turn_270():
-    left_and_right(90)
     motor_e.run_angle(10000, 280, then=Stop.HOLD)
     motor_e.run_angle(10000, -10, then=Stop.HOLD)
 

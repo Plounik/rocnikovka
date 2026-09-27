@@ -13,5 +13,14 @@ import rotations
 import turns
 import moves
 
+
+
+
 motors.setup_up()
-moves.execute(["U", "D2", "F", "L'"])
+for i in range(6):
+    moves.execute(["D", "F", "D'", "F'"])
+
+
+
+
+
