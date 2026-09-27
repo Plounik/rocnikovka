@@ -29,7 +29,7 @@ def _target_delta(motor, target, direction="shortest"):
 def _go_to_position(motor, target, direction="shortest", wait_for_finish=True):
     delta = _target_delta(motor, target, direction)
     motor.run_angle(
-        10000,
+        500,
         delta,
         then=Stop.HOLD,
         wait=wait_for_finish,
@@ -41,34 +41,9 @@ def _wait_until_done(motor):
         wait(1)
 
 
-def left_arm(angle, wait_for_finish=True):
-    current = _absolute_angle(motor_b)
-    if round((current-10) / 20) * 20 == angle - 10:
-        direction = "shortest"
-    elif angle - 60 > current:
-        direction = "clockwise"
-    else:
-        direction = "counterclockwise"
-
-    _go_to_position(motor_b, angle, direction, wait_for_finish)
-
-
-def right_arm(angle, wait_for_finish=True):
-    current = _absolute_angle(motor_f)
-
-    if round((current-10) / 20) * 20 == angle - 10:
-        direction = "shortest"
-    elif angle - 60 > current:
-        direction = "clockwise"
-    else:
-        direction = "counterclockwise"
-
-    _go_to_position(motor_f, angle, direction, wait_for_finish)
-
-
 def hold():
     _go_to_position(motor_b, 325, "clockwise", False)
-    _go_to_position(motor_f, 350, "clockwise", True)
+    _go_to_position(motor_f, 325, "clockwise", True)
     _wait_until_done(motor_b)
 
 
@@ -79,7 +54,13 @@ def release():
 
 def scan():
     _go_to_position(motor_d, 100, "shortest")
-    _go_to_position(motor_d, 190, "clockwise")
+    _go_to_position(motor_d, 185, "clockwise")
+    motor_d.hold()
+    wait(300)
+
+def scan_center():
+    _go_to_position(motor_d, 135, "shortest")
+    wait(300)
 
 
 def setup_up():
@@ -89,27 +70,32 @@ def setup_up():
     target_e = round(current_e / 90) * 90 - 5
     _go_to_position(motor_e, target_e, "shortest")
 
-    current_f = _absolute_angle(motor_f)
-    direction_f = "counterclockwise" if 270 < current_f else "shortest"
-    _go_to_position(motor_f, 90, direction_f, False)
+    _go_to_position(motor_f, 150, "shortest", False)
 
-    current_b = _absolute_angle(motor_b)
-    direction_b = "counterclockwise" if 170 < current_b else "shortest"
-    _go_to_position(motor_b, 90, direction_b, True)
+    _go_to_position(motor_b, 150, "shortest", True)
 
     _wait_until_done(motor_f)
 
 
 def left_and_right(angle):
-    right_arm(angle, False)
-    left_arm(angle, True)
+    _go_to_position(motor_f, angle, "shortest", False)
+    _go_to_position(motor_b, angle, "shortest", True)
     _wait_until_done(motor_f)
 
 
 def turn_up():
-    left_and_right(90)
-    motor_b.run_angle(2000, 180, then=Stop.HOLD)
-    motor_b.run_angle(350, 180, then=Stop.HOLD)
+    left_and_right(150)
+    _go_to_position(motor_b, 45, "clockwise", True)
+    _go_to_position(motor_f, 330, "clockwise", True)
+    left_and_right(150)
+    wait(300)
+
+
+def turn_down():
+    left_and_right(150)
+    _go_to_position(motor_f, 45, "clockwise", True)
+    _go_to_position(motor_b, 330, "clockwise", True)
+    left_and_right(150)
     wait(300)
 
 
@@ -132,18 +118,18 @@ def move_90():
     hold()
     motor_e.run_angle(10000, -280, then=Stop.HOLD)
     motor_e.run_angle(10000, 10, then=Stop.HOLD)
-    left_and_right(90)
+    left_and_right(150)
 
 
 def move_180():
     hold()
     motor_e.run_angle(10000, 550, then=Stop.HOLD)
     motor_e.run_angle(10000, -10, then=Stop.HOLD)
-    left_and_right(90)
+    left_and_right(150)
 
 
 def move_270():
     hold()
     motor_e.run_angle(10000, 280, then=Stop.HOLD)
     motor_e.run_angle(10000, -10, then=Stop.HOLD)
-    left_and_right(90)
+    left_and_right(180)

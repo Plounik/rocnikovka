@@ -37,6 +37,18 @@ def move_up():
         }
     motors.turn_up()
 
+def move_down():
+    global state
+    state = {
+        "top":state["back"],
+        "bottom":state["front"],
+        "front":state["top"],
+        "back":state["bottom"],
+        "right":state["right"],
+        "left":state["left"]
+        }
+    motors.turn_down()
+
 def move_180():
     global state
     state = {
