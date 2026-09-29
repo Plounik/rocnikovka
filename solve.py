@@ -28,23 +28,28 @@
 # Purpose:      Rubik's Cube solver for PrimeCuber robot
 #-----------------------------------------------------------------------------
 
-import time
-
 try:
-    _ticks_ms = time.ticks_ms
-except AttributeError:
-    _ticks_ms = lambda: int(time.time() * 1000)
+    import time
+except ImportError:
+    from pybricks.tools import StopWatch
+    _ticks_ms = StopWatch().time
+else:
+    try:
+        _ticks_ms = time.ticks_ms
+    except AttributeError:
+        _clock_start = time.monotonic()
+        _ticks_ms = lambda: int((time.monotonic() - _clock_start) * 1000)
 
 # PrimeCuber's original source supplied RND as a platform macro.  Keep a
 # small local pseudo-random generator so the diagnostic shuffle() helper also
 # works on Pybricks without depending on a particular random module.
-_RND_STATE = _ticks_ms() & 0x7fffffff
+_RND_STATE = _ticks_ms() % 65521
 
 def RND(n):
     global _RND_STATE
     if n <= 0:
         raise ValueError("random range must be positive")
-    _RND_STATE = (1664525 * _RND_STATE + 1013904223) & 0x7fffffff
+    _RND_STATE = (109 * _RND_STATE + 1021) % 65521
     return _RND_STATE % n
 
 def trace(msg):
@@ -660,6 +665,7 @@ def _decode_table(text):
         if bits >= 8:
             bits -= 8
             out.append((acc >> bits) & 255)
+            acc &= (1 << bits) - 1
     return out
 
 _TABLE = _decode_table(_TABLE_B64)
@@ -794,7 +800,7 @@ class cube_idx():
 
 #-----------------------------------------------------------------------------
 
-MAXINT = 0x7FFFFFFF
+MAXINT = 0x3FFFFFFF
 
 MV_MAX = 80
 
@@ -1231,12 +1237,9 @@ def _valid_position_invariants(c):
     return _parity(edge_ids) == _parity(corner_ids)
 
 _INIT = False
-# The target is roughly equivalent to 0.5 s on the development PC.  The
-# SPIKE Prime hub has a 100 MHz Cortex-M4, versus about 3.2 GHz on the PC,
-# and this Python search also pays interpreter/cache overhead on the hub.
-# 20 s is a conservative first estimate for that equivalent search budget.
-# It remains a wall-clock budget, so faster hardware can find better results.
-_SEARCH_BUDGET_MS = 20000
+# Keep searching for a shorter solution for 50 seconds after search starts.
+# The solver may take longer if it has not found its first solution yet.
+_SEARCH_BUDGET_MS = 50000
 
 def solve(cube_state):
     global _INIT

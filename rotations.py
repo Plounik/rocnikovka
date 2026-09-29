@@ -1,6 +1,6 @@
 import motors
-default_state = {"top":"yellow", "bottom":"white", "front":"green", "back":"blue", "right":"orange", "left":"red"}
-state = default_state
+default_state = {"top":"U", "bottom":"D", "front":"F", "back":"B", "right":"R", "left":"L"}
+state = default_state.copy()
 def move_left():
     global state
     state = {
