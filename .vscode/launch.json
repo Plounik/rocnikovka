@@ -5,12 +5,10 @@
             "name": "SPIKE Prime - Stay Connected (main.py)",
             "type": "debugpy",
             "request": "launch",
-            "module": "pybricksdev",
             "args": [
-                "run",
-                "ble",
-                "--stay-connected",
-                "${workspaceFolder}\\main.py"
+                "--program",
+                "${workspaceFolder}\\main.py",
+                "--stay-connected"
             ],
             "python": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
             "cwd": "${workspaceFolder}",
@@ -26,16 +24,15 @@
                 "focus": true,
                 "clear": true,
                 "showReuseMessage": false
-            }
+            },
+            "program": "${workspaceFolder}\\cube_solver\\run_hub.py"
         },
         {
             "name": "SPIKE Prime - Run Once (main.py)",
             "type": "debugpy",
             "request": "launch",
-            "module": "pybricksdev",
             "args": [
-                "run",
-                "ble",
+                "--program",
                 "${workspaceFolder}\\main.py"
             ],
             "python": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
@@ -52,7 +49,8 @@
                 "focus": true,
                 "clear": true,
                 "showReuseMessage": false
-            }
+            },
+            "program": "${workspaceFolder}\\cube_solver\\run_hub.py"
         }
     ]
 }

@@ -9,7 +9,7 @@ import rotations
 import turns
 import moves
 import scan_cube
-import solve
+import solver
 # import files
 
 
@@ -68,7 +68,7 @@ def cube_convert(cube):
 # coverting to desired format
 
 def cube_solve(final_cube):
-    moves_list = solve.solve(final_cube)
+    moves_list = solver.solve(final_cube).split()
     print(moves_list)
     return moves_list
 # imputs cube state to solver, get moves list as and output

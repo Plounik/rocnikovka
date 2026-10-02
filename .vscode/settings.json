@@ -1,5 +1,8 @@
 {
     "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
     "python.terminal.activateEnvironment": false,
-    "debug.saveBeforeStart": "allEditorsInActiveGroup"
+    "debug.saveBeforeStart": "allEditorsInActiveGroup",
+    "python.analysis.extraPaths": [
+        "./cube_solver"
+    ]
 }
