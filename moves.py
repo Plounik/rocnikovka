@@ -60,10 +60,10 @@ def execute(turns_list):
             check_top("up")
 
         if i[0] == i[-1]:
-            motors.move_90()
+            motors.move_270()
 
         elif i[-1] == "'":
-            motors.move_270()
+            motors.move_90()
 
         elif i[-1] == "2":
             motors.move_180()
