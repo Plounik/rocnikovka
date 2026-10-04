@@ -65,18 +65,18 @@ scanning_timer = StopWatch()
 cube = cube_scan()
 final_cube = cube_convert(cube)
 scanning_timer.pause()
+print(f"The scanning finished in {scanning_timer.time()/1000}s")
 
 solve_timer = StopWatch()
 moves_list = cube_solve(final_cube)
 print(scan_cube.faces)
 solve_timer.pause()
-
+print(f"Calculating the solution took {solve_timer.time()/1000}s")
 
 solving_timer = StopWatch()
 moves.execute(moves_list)
 solve_timer.pause()
-
 timer.pause()
+print(f"Solving the cube finished in {solving_timer.time()/1000}s")
 
-print(f"Executed in {timer.time()/1000}s,\nThe scanning part took {scanning_timer.time()/1000},\nThe solver took {solve_timer.time()/1000}s,\nThe solving part took {solving_timer.time()/1000}s.")
-
+print(f"Executed in {timer.time()/1000}s")
