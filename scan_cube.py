@@ -47,7 +47,10 @@ def scan(sensor):
 
 
 def scan_side(face):
-    order = "836501274"
+    if face == "F" or face == "U":
+        order = "836501274"
+    else:
+        order = "614307852"
     side = ""
     motors.scan_center()
     side += scan(main_sensor)
@@ -57,6 +60,7 @@ def scan_side(face):
         side += scan(main_sensor)
         side += scan(side_sensor)
         motors.turn_90()
+        wait(20)
     side_final = ""
     for i in range(9):
         side_final += side[int(order[i])]

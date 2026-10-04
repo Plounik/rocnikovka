@@ -29,7 +29,7 @@ def _go_to_position(motor, target, speed=500, wait_for_finish=True):
 def base_motor(angle, target_angle):
     angle += target_angle
     motor_e.run_target(1000, angle + 5)
-    motor_e.run_target(1000, angle, Stop.HOLD)
+    motor_e.run_target(200, angle, Stop.HOLD)
     return angle
 
 def hold():

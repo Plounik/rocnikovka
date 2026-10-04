@@ -27,26 +27,34 @@ if hub.battery.voltage() < 8000:
 def cube_scan():
     cube = ""
     cube += scan_cube.scan_side("U")
+    turns.execute(["up"])
+    cube += scan_cube.scan_side("F")
     turns.execute(["left","up"])
     cube += scan_cube.scan_side("R")
-    turns.execute(["down","right","up"])
-    cube += scan_cube.scan_side("F")
     turns.execute(["up"])
-    cube += scan_cube.scan_side("D")
-    turns.execute(["left","down"])
-    cube += scan_cube.scan_side("L")
-    turns.execute(["up","left","down"])
     cube += scan_cube.scan_side("B")
+    turns.execute(["up"])
+    cube += scan_cube.scan_side("L")
+    turns.execute(["right","up"])
+    cube += scan_cube.scan_side("D")
     turns.execute(["down","180"])
-    print(cube)
     return cube
 # scanning the cube
 
 def cube_convert(cube):
     print(cube)
-    final_cube = ""
+    f_cube = ""
     for i in cube:
-        final_cube += str(scan_cube.faces[i])
+        f_cube += str(scan_cube.faces[i])
+    source = list(f_cube)
+    final_cube = source[:]  # Separate copy
+
+    final_cube[9:18] = source[18:27]
+    final_cube[18:27] = source[9:18]
+    final_cube[27:36] = source[45:54]
+    final_cube[45:54] = source[27:36]
+
+    final_cube = "".join(final_cube)
     print(final_cube)
     return final_cube
 # coverting to desired format

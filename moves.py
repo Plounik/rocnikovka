@@ -5,7 +5,9 @@ reference = {"U": "top", "D": "bottom", "F": "front", "B": "back", "R": "right",
 
 def execute(turns_list):
     for number, i in enumerate(turns_list, 1):
-        print("move", number, "of", len(turns_list), i)
+        if i != 0:print("\x1b[1A\r\x1b[2K" * 2, end="")
+        print("move", number, "of", len(turns_list))
+        print(f"currently performing move {i}")
         original_face = rotations.default_state[reference[str(i[0])]]
         reverse_state = {v: k for k, v in rotations.state.items()}
         current_position = reverse_state[original_face]
