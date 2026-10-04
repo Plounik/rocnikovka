@@ -64,21 +64,36 @@ async def main(args):
             raise RuntimeError('This build requires a SPIKE Prime / Robot Inventor hub')
         if str(hub.fw_version) not in ('4.0.0','4.0.1'):
             raise RuntimeError('Native module was built against Pybricks 4.0.1; verify ABI before using another firmware')
-        await hub.download_user_program(data)
-        if args.download_only:
-            print('Saved in the selected hub program slot. Run it with the hub buttons.')
-        else:
-            await hub.run(None,wait=True,print_output=True)
-        lines=[x.decode('utf-8',errors='replace') if isinstance(x,(bytes,bytearray)) else str(x) for x in hub.output]
-        if args.log:
-            log=Path(args.log)
-            log.write_text('\n'.join(lines)+'\n')
-            print('Saved output:',log)
-        if any('Traceback (most recent call last):' in line for line in lines):
-            raise RuntimeError('The hub program failed. See the printed traceback'+(' and '+str(args.log) if args.log else ''))
-        if args.stay_connected and not args.download_only:
-            print('Connected. Press the hub button to run again; Ctrl+C disconnects.',flush=True)
-            await asyncio.Future()
+        while True:
+            await hub.download_user_program(data)
+            if args.download_only:
+                print('Saved in the selected hub program slot. Run it with the hub buttons.')
+            else:
+                await hub.run(None,wait=True,print_output=True)
+            lines=[x.decode('utf-8',errors='replace') if isinstance(x,(bytes,bytearray)) else str(x) for x in hub.output]
+            if args.log:
+                log=Path(args.log)
+                log.write_text('\n'.join(lines)+'\n')
+                print('Saved output:',log)
+            if any('Traceback (most recent call last):' in line for line in lines):
+                message='The hub program failed. See the printed traceback'+(' and '+str(args.log) if args.log else '')
+                if not args.stay_connected or args.download_only: raise RuntimeError(message)
+                print(message,flush=True)
+            if not args.stay_connected or args.download_only: break
+            import questionary
+            from pybricksdev.connections.pybricks import HubPowerButtonPressedError
+            while True:
+                try:
+                    response=await hub.race_disconnect(hub.race_power_button_press(
+                        questionary.select('Connected. F7/Enter recompiles and runs again.',
+                            ['Recompile and Run','Exit'],default='Recompile and Run').ask_async()))
+                    break
+                except HubPowerButtonPressedError:
+                    await hub._wait_for_power_button_release()
+                    await hub._wait_for_user_program_stop()
+            if response!='Recompile and Run': break
+            data,sizes=await bundle(program)
+            print('Bundle:',len(data),'bytes; modules:',sizes)
     finally:
         if hub.connection_state_observable.value==ConnectionState.CONNECTED:
             await hub.disconnect()
