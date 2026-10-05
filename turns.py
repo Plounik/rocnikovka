@@ -5,10 +5,9 @@ def execute(turns_list):
                 rotations.move_up()
             elif i == "down":
                 rotations.move_down()
-            elif i == "180":
-                rotations.move_180()
             elif i == "left":
                 rotations.move_left()
             elif i == "right":
                 rotations.move_right()
-  
+            elif i == "180":
+                rotations.move_180()

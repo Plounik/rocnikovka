@@ -1,11 +1,8 @@
 from pybricks.hubs import PrimeHub
-from pybricks.pupdevices import (ColorSensor,Motor)
-from pybricks.parameters import Axis, Button, Color, Direction, Port, Side, Stop
-from pybricks.tools import StopWatch, wait
+from pybricks.tools import StopWatch
 # import pybrics
 
 import motors
-import rotations
 import turns
 import moves
 import scan_cube
@@ -42,12 +39,11 @@ def cube_scan():
 # scanning the cube
 
 def cube_convert(cube):
-    print(cube)
     f_cube = ""
     for i in cube:
         f_cube += str(scan_cube.faces[i])
     source = list(f_cube)
-    final_cube = source[:]  # Separate copy
+    final_cube = source[:] 
 
     final_cube[9:18] = source[18:27]
     final_cube[18:27] = source[9:18]
@@ -55,36 +51,58 @@ def cube_convert(cube):
     final_cube[45:54] = source[27:36]
 
     final_cube = "".join(final_cube)
-    print(final_cube)
     return final_cube
 # coverting to desired format
 
 def cube_solve(final_cube):
+    global moves_list
     moves_list = solver.solve(final_cube).split()
-    print(moves_list)
     return moves_list
 # imputs cube state to solver, get moves list as and output
+
+def scan():
+    global cube
+    print("Scanning...")
+    scanning_timer = StopWatch()
+    cube = cube_scan()
+    final_cube = cube_convert(cube)
+    scanning_timer.pause()
+    print("\x1b[1A\r\x1b[2K", end="")
+    print(f"The scanning finished in {scanning_timer.time()/1000}s")
+    return final_cube
+# scans and converts the cube to desired format
+
+def calculate(final_cube):
+    print("Calculating...")
+    calculate_timer = StopWatch()
+    moves_list = cube_solve(final_cube)
+    calculate_timer.pause()
+    print("\x1b[1A\r\x1b[2K", end="")
+    print(f"Calculating the solution took {calculate_timer.time()/1000}s")
+    return moves_list
+# gives the position to solver, returns moves list
+
+def solve(moves_list):
+    print("Solving...")
+    solving_timer = StopWatch()
+    moves.execute(moves_list)
+    solving_timer.pause()
+    print("\x1b[1A\r\x1b[2K", end="")
+    print(f"Solving the cube finished in {solving_timer.time()/1000}s")
+# executing moves_list
+
 
 
 motors.setup_up()
 
 timer = StopWatch()
-scanning_timer = StopWatch()
-cube = cube_scan()
-final_cube = cube_convert(cube)
-scanning_timer.pause()
-print(f"The scanning finished in {scanning_timer.time()/1000}s")
 
-solve_timer = StopWatch()
-moves_list = cube_solve(final_cube)
-print(scan_cube.faces)
-solve_timer.pause()
-print(f"Calculating the solution took {solve_timer.time()/1000}s")
+final_cube = scan()
+moves_list = calculate(final_cube)
+solve(moves_list)
 
-solving_timer = StopWatch()
-moves.execute(moves_list)
-solve_timer.pause()
 timer.pause()
-print(f"Solving the cube finished in {solving_timer.time()/1000}s")
 
-print(f"Executed in {timer.time()/1000}s")
+print(f"Executed in {timer.time()/1000}s\n\n")
+print(cube)
+print(moves_list)

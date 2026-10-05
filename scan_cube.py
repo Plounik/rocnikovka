@@ -1,6 +1,6 @@
 import motors
 from pybricks.parameters import Port
-from pybricks.pupdevices import (ColorSensor,Motor)
+from pybricks.pupdevices import ColorSensor
 from pybricks.tools import wait
 
 
@@ -8,16 +8,6 @@ main_sensor = ColorSensor(Port.A)
 side_sensor = ColorSensor(Port.C)
 faces = {}
 
-
-def check_face():
-    motors.scan()
-    h1, s1, v1 = 0, 0, 0
-    for i in range(10):
-        h, s, v = main_sensor.hsv()
-        h1 += h
-        s1 += s
-        v1 += v
-    print(h1/10, s1/10, v1/10)
 
 def scan(sensor):
     h, s, v = 0, 0, 0
